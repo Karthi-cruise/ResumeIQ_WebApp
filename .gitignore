@@ -1,0 +1,11 @@
+.venv/
+.venv311/
+__pycache__/
+.pytest_cache/
+.pycache/
+.pycache311/
+.env
+*.pyc
+*.whl
+
+.DS_Store

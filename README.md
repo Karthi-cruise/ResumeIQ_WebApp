@@ -170,3 +170,4 @@ The hardest part was balancing a clean demo experience with realistic resume-mat
 
 If I had more time, I would improve score calibration across a broader benchmark set of resumes and job descriptions, add richer LLM-powered bullet rewrite suggestions, and introduce stronger document validation for complex or poorly formatted PDFs. I would also add more role-specific evaluation cases so the scoring logic is easier to tune and explain during production use.
 # ResumeIQ_WebApp
+# ResumeIQ_WebApp

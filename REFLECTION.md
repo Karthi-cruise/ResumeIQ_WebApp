@@ -1,0 +1,7 @@
+# Reflection
+
+I chose `FastAPI`, `PyMuPDF`, and `FAISS` because they fit the problem closely and keep the architecture easy to explain in an interview. `FastAPI` makes it simple to expose clean API routes, `PyMuPDF` gives reliable PDF text extraction for resumes, and `FAISS` provides real vector similarity search instead of a shallow keyword-only matcher. I also wired the app to support multiple embedding paths including `OpenAI`, `Gemini`, `Hugging Face`, and local `SentenceTransformers`, which keeps the system aligned with the requested AI tooling while still letting the app run in environments with different API or offline constraints.
+
+The biggest challenge was making the match score feel explainable instead of arbitrary. It is easy to compute a single similarity number, but that alone does not help a candidate understand what to improve. I solved that by chunking the job description into requirement statements, chunking the resume into evidence segments, and then using `FAISS` to find the nearest resume evidence for each requirement. That gave me a structure for strengths, gaps, and rewrite suggestions that maps back to real text rather than vague model output.
+
+If I had more time, I would improve calibration of the scoring formula across a wider sample of resumes and roles, add richer prompt-based suggestions for rewriting bullets, and build a lightweight evaluation dataset to compare provider behavior more systematically. I would also add stronger validation for malformed resumes and a more detailed recruiter-facing shortlist workflow.

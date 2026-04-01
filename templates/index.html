@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ResumeIQ</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Source+Sans+3:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <div class="app-topbar">
+        <div class="account-menu-wrap">
+          <button id="account-menu-button" class="menu-button top-corner-menu" type="button" aria-label="Open account menu" aria-expanded="false">
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+          <div id="account-menu" class="account-menu hidden" role="menu">
+            <div class="account-menu-header">
+              <strong>My Account</strong>
+              <span>ResumeIQ Workspace</span>
+            </div>
+            <button type="button" class="account-menu-item" id="menu-login">Login</button>
+            <button type="button" class="account-menu-item" id="menu-profile">Profile</button>
+            <button type="button" class="account-menu-item" id="menu-saved">Saved Analyses</button>
+          </div>
+        </div>
+      </div>
+
+      <form id="analysis-form">
+        <header class="hero">
+          <div class="hero-copy">
+            <div class="hero-topbar">
+              <div>
+                <p class="eyebrow">AI Resume Matching</p>
+                <div class="hero-title-row">
+                  <h1>ResumeIQ</h1>
+                  <p class="hero-kicker">Sharper applications. Faster decisions.</p>
+                </div>
+              </div>
+              <div class="hero-actions">
+                <button id="hero-submit-button" class="hero-submit" type="submit">Analyze Resume Fit</button>
+              </div>
+            </div>
+            <p class="hero-text">
+              Upload one or more resumes, add a job description by paste or PDF, and instantly see role fit,
+              missing signals, and stronger ways to position experience.
+            </p>
+            <div class="hero-badges compact">
+              <span>ATS Match Scoring</span>
+              <span>Resume Gap Analysis</span>
+              <span>Tailored Rewrite Tips</span>
+              <span>Hiring Shortlists</span>
+            </div>
+            <section class="hero-workbench hero-upload-grid">
+              <div class="hero-upload-card field field-compact field-upload">
+                <span>Upload job description file</span>
+                <label class="upload-dropzone" for="job-description-file">
+                  <span class="upload-button">Choose File</span>
+                  <span id="job-description-file-label" class="upload-selection">No file chosen</span>
+                </label>
+                <input id="job-description-file" name="job_description_file" type="file" accept=".pdf,.txt,.md" />
+                <small class="field-note">Supports PDF, TXT, and Markdown job descriptions.</small>
+              </div>
+              <div class="hero-upload-card field field-compact field-upload">
+                <span>Upload resume files</span>
+                <label class="upload-dropzone" for="resume-files">
+                  <span class="upload-button">Choose Files</span>
+                  <span id="resume-files-label" class="upload-selection">No files chosen</span>
+                </label>
+                <input id="resume-files" name="resume_files" type="file" accept=".pdf,.txt,.md" multiple />
+                <small class="field-note">Supports PDF, TXT, and Markdown resume files. Upload one or many resumes.</small>
+                <div id="resume-files-list" class="upload-file-list hidden"></div>
+              </div>
+            </section>
+          </div>
+          <aside class="hero-card premium-card ranking-spotlight" id="ranking-spotlight">
+            <div class="spotlight-empty" id="spotlight-empty">
+              <p class="hero-card-label">Resume intelligence, built for serious applications</p>
+              <h2 class="hero-card-title">See what recruiters notice before they do.</h2>
+              <p class="hero-card-note">ResumeIQ reviews alignment, missing signals, and positioning so candidates can refine faster and hiring teams can compare stronger profiles.</p>
+              <div class="hero-proof-list">
+                <div class="hero-proof-item">
+                  <strong>Match clarity</strong>
+                  <span>Score alignment against the role with clear reasoning.</span>
+                </div>
+                <div class="hero-proof-item">
+                  <strong>Gap visibility</strong>
+                  <span>Spot missing skills, impact signals, and experience areas instantly.</span>
+                </div>
+                <div class="hero-proof-item">
+                  <strong>Rewrite support</strong>
+                  <span>Turn weak bullets into stronger, role-aligned statements.</span>
+                </div>
+              </div>
+            </div>
+            <div class="spotlight-results hidden" id="spotlight-results">
+              <div class="spotlight-head">
+                <div>
+                  <p class="hero-card-label">Ranked shortlist</p>
+                  <h2 class="hero-card-title">Top resume spotlight</h2>
+                </div>
+                <div class="spotlight-nav hidden" id="spotlight-nav">
+                  <button type="button" class="spotlight-arrow" id="spotlight-prev" aria-label="Previous resume">&larr;</button>
+                  <button type="button" class="spotlight-arrow" id="spotlight-next" aria-label="Next resume">&rarr;</button>
+                </div>
+              </div>
+              <div class="spotlight-stage" id="spotlight-stage"></div>
+              <div class="spotlight-dots" id="spotlight-dots"></div>
+            </div>
+          </aside>
+        </header>
+
+        <main class="layout refined-layout">
+          <section class="panel input-panel refined-input-panel">
+            <div class="workspace-head">
+              <div>
+                <p class="workspace-eyebrow">Workspace</p>
+                <h3>Prepare the comparison</h3>
+              </div>
+              <p>Paste the role and resume content, choose the evaluation view, and run the analysis.</p>
+            </div>
+
+            <div class="paste-grid refined-paste-grid">
+              <label class="field editor-card">
+                <span>Job description</span>
+                <textarea
+                  id="job-description"
+                  name="job_description"
+                  rows="11"
+                  placeholder="Paste the role requirements, responsibilities, and must-have skills here."
+                ></textarea>
+              </label>
+              <label class="field editor-card">
+                <span>Resume</span>
+                <textarea
+                  id="resume-text"
+                  name="resume_text"
+                  rows="11"
+                  placeholder="Paste resume text here if you do not want to upload a file."
+                ></textarea>
+              </label>
+            </div>
+
+            <section class="control-panel refined-control-panel single-column-controls">
+              <label class="field field-compact view-mode-field compact-control">
+                <span>View mode</span>
+                <select id="view-mode" name="view_mode">
+                  <option value="candidate">Candidate View</option>
+                  <option value="hiring_manager">Hiring Manager View</option>
+                </select>
+              </label>
+
+              <div class="actions subtle-actions">
+                <button id="reset-button" type="button" class="ghost wide-ghost">Reset Form</button>
+              </div>
+
+              <section class="guidance-card refined-guidance-card elegant-guidance-card">
+                <div class="guidance-head">
+                  <h3>What ResumeIQ checks</h3>
+                  <p>Three evaluation lenses that make the review easier to explain and act on.</p>
+                </div>
+                <div class="guidance-grid refined-guidance-grid elegant-guidance-grid">
+                  <div class="guidance-item elegant-guidance-item">
+                    <strong>Fit</strong>
+                    <p>Measures how closely the resume evidence aligns with the role requirements.</p>
+                  </div>
+                  <div class="guidance-item elegant-guidance-item">
+                    <strong>Missing signals</strong>
+                    <p>Highlights skills, experience, or impact language that the JD expects but the resume does not show.</p>
+                  </div>
+                  <div class="guidance-item elegant-guidance-item">
+                    <strong>Rewrite help</strong>
+                    <p>Suggests stronger phrasing to make accomplishments feel more role-relevant.</p>
+                  </div>
+                </div>
+              </section>
+            </section>
+          </section>
+
+          <section class="panel output-panel refined-output-panel">
+            <div class="output-head">
+              <div>
+                <p class="workspace-eyebrow">Results</p>
+                <h3>Analysis output</h3>
+              </div>
+              <p>Scores, strengths, gaps, and ranked resume comparisons appear here.</p>
+            </div>
+            <div id="status" class="status">Add a job description and at least one resume to begin.</div>
+            <div id="results-empty" class="results-empty-state">
+              <div class="results-empty-mark">RI</div>
+              <h3>ResumeIQ</h3>
+              <p>Upload or paste a job description and resume to generate match scoring, strengths, gaps, and ranked comparisons here.</p>
+            </div>
+            <div id="ranking" class="ranking hidden"></div>
+            <div id="results" class="results-grid"></div>
+          </section>
+        </main>
+      </form>
+    </div>
+
+      <div id="auth-modal" class="auth-modal hidden" aria-hidden="true">
+        <div class="auth-dialog">
+          <div class="auth-head">
+            <div>
+              <p class="workspace-eyebrow">Account Access</p>
+              <h3 id="auth-title">Login to continue</h3>
+            </div>
+            <button type="button" id="auth-close" class="auth-close" aria-label="Close login dialog">×</button>
+          </div>
+          <p id="auth-copy" class="auth-copy">Login is required to open profile and saved analyses. Resume analysis itself stays available without an account.</p>
+          <div id="auth-view-logged-out">
+            <label class="field">
+              <span>Name</span>
+              <input id="auth-name" type="text" placeholder="Enter your name" />
+            </label>
+            <label class="field">
+              <span>Email</span>
+              <input id="auth-email" type="email" placeholder="Enter your email" />
+            </label>
+            <div class="actions auth-actions">
+              <button type="button" id="auth-login" class="hero-submit">Login</button>
+            </div>
+          </div>
+          <div id="auth-view-logged-in" class="hidden">
+            <div class="auth-profile-card">
+              <strong id="auth-user-name">Guest User</strong>
+              <span id="auth-user-email">guest@example.com</span>
+            </div>
+            <div class="actions auth-actions">
+              <button type="button" id="auth-open-destination" class="hero-submit">Continue</button>
+              <button type="button" id="auth-logout" class="ghost">Logout</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    <script src="/static/app.js"></script>
+  </body>
+</html>
